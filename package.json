@@ -1,0 +1,23 @@
+{
+  "name": "playwright-javascript-typescript-ui-api-rs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shreenidhi7/Playwright-JavaScript-TypeScript-UI-API-RS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Shreenidhi7/Playwright-JavaScript-TypeScript-UI-API-RS/issues"
+  },
+  "homepage": "https://github.com/Shreenidhi7/Playwright-JavaScript-TypeScript-UI-API-RS#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.3.0"
+  }
+}

@@ -1,0 +1,14 @@
+1. If ID is present
+  - css selector - tagname#id (or) "#id"
+
+2. If Class attribute is present
+  - css selector - tagname.class (or) .class
+
+3. Write css based on any attribute
+  - css selector - [attribute='value']
+
+4. Write css with travesing from parent to child
+  - css selector - parenttagname >> childtagname
+
+5. If need to write the locator based on text
+  - css selector - text=""
