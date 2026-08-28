@@ -29,6 +29,9 @@ export default defineConfig({
     headless: false,
     actionTimeout: 10 * 1000, //10secs
     navigationTimeout: 30 * 1000, //30secs
+    screenshot: "only-on-failure",
+    // trace: "on", // if trace is on, then for every test case irrespective of pass or fail a zip will be generated
+    trace: "retain-on-failure" // saves the memory in the system as the trace is collected only on the failure case
   },
 });
 
