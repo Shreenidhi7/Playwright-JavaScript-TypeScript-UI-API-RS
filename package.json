@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "npx playwright test tests/section11-apitesting-web-and-api.spec.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Shreenidhi7/Playwright-JavaScript-TypeScript-UI-API-RS.git"
