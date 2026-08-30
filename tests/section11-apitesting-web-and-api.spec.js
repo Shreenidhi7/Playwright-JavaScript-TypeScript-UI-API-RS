@@ -1,10 +1,11 @@
 import { test, request, expect } from "@playwright/test";
+import { Api_Utils } from "./utils/api-utils";
 
 const loginPayloadRequest = {
     userEmail: "shree7@rsa.com",
     userPassword: "Shreersa@7"
 }
-let user_access_token = ""
+// let user_access_token = ""
 
 const placeOrderData = {
     "orders": [{
@@ -12,44 +13,48 @@ const placeOrderData = {
         "productOrderedId": "6960eac0c941646b7a8b3e68"
     }]
 }
-let orderIdFromAPI = ""
+// let orderIdFromAPI = ""
+
+let response = ""
 
 test.beforeAll(async () => {
 
-    // Login API 
-    const apiContext = await request.newContext()
-    const loginResponse = await apiContext.post("https://rahulshettyacademy.com/api/ecom/auth/login", {
-        data: loginPayloadRequest,
-    })
-    console.log(loginResponse.ok());
-    await expect(loginResponse.ok()).toBeTruthy()
-    const loginResponseJson = await loginResponse.json()
-    user_access_token = loginResponseJson.token
-    console.log("user_access_token = ", user_access_token);
+    // // Login API 
+    // const apiContext = await request.newContext()
+    // const loginResponse = await apiContext.post("https://rahulshettyacademy.com/api/ecom/auth/login", {
+    //     data: loginPayloadRequest,
+    // })
+    // console.log(loginResponse.ok());
+    // await expect(loginResponse.ok()).toBeTruthy()
+    // const loginResponseJson = await loginResponse.json()
+    // user_access_token = loginResponseJson.token
+    // console.log("user_access_token = ", user_access_token);
 
-    // Place Order API
-    const placeOrderResponse = await apiContext.post("https://rahulshettyacademy.com/api/ecom/order/create-order", {
-        data: placeOrderData,
-        headers: {
-            "Authorization": user_access_token,
-            "Content-Type": "application/json"
-        }
-    })
-    const statusResponse = await placeOrderResponse.status()
-    console.log("statusResponse : ", statusResponse);
-    await expect(statusResponse).toBe(201)
+    // // Place Order API
+    // const placeOrderResponse = await apiContext.post("https://rahulshettyacademy.com/api/ecom/order/create-order", {
+    //     data: placeOrderData,
+    //     headers: {
+    //         "Authorization": user_access_token,
+    //         "Content-Type": "application/json"
+    //     }
+    // })
+    // const statusResponse = await placeOrderResponse.status()
+    // console.log("statusResponse : ", statusResponse);
+    // await expect(statusResponse).toBe(201)
 
-    const statusResponseStatus = await placeOrderResponse.statusText()
-    console.log("statusResponseStatus : ", statusResponseStatus);
-    await expect(statusResponseStatus).toContain("Created")
+    // const statusResponseStatus = await placeOrderResponse.statusText()
+    // console.log("statusResponseStatus : ", statusResponseStatus);
+    // await expect(statusResponseStatus).toContain("Created")
 
-    const placeOrderResponseJson = await placeOrderResponse.json()
-    console.log("placeOrderResponseJson :", placeOrderResponseJson);
+    // const placeOrderResponseJson = await placeOrderResponse.json()
+    // console.log("placeOrderResponseJson :", placeOrderResponseJson);
 
-    orderIdFromAPI = await placeOrderResponseJson.orders[0]
-    console.log("orderIdFromAPI :", orderIdFromAPI);
+    // orderIdFromAPI = await placeOrderResponseJson.orders[0]
+    // console.log("orderIdFromAPI :", orderIdFromAPI);
 
-
+    const apiContext = await request.newContext();
+    const apiUtils = new Api_Utils(apiContext, loginPayloadRequest)
+    response = await apiUtils.placeOrder(placeOrderData)
 
 })
 
@@ -57,7 +62,7 @@ test("Web UI Automation", async ({ page }) => {
 
     page.addInitScript(value => {
         window.localStorage.setItem("token", value)
-    }, user_access_token)
+    }, response.token)
     await page.goto("https://rahulshettyacademy.com/client")
     await page.waitForLoadState("networkidle")
     await page.locator(".card .card-body").first().waitFor()
@@ -94,8 +99,8 @@ test("Web UI Automation", async ({ page }) => {
         let orderId = await listOfOrders[i]
         console.log("orderId", orderId);
 
-        if (orderId === orderIdFromAPI) {
-            console.log("The current order id matches" + orderId + " and " + orderIdFromAPI + " ");
+        if ( orderId === response.orderId) {
+            console.log("The current order id matches" + orderId + " and " + response.orderId + " ");
             break
         }
     }
