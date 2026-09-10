@@ -4,8 +4,24 @@ import { defineConfig, devices } from '@playwright/test';
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
+
+/**
+ * To run this configuration file in the terminal
+ * - command => npx playwright test --config=playwright.config_additional.js
+ * - command => npx playwright test section17-pageObjectPattern-datadrivenparameterization.spec.js --config=playwright.config_additional.js --project=SafariExecution
+ */
+
+/**
+ * To run the test cases based on the tags
+ * - command => npx playwright test --grep @Web
+ * - command => npx playwright test --grep @API
+ */
 export default defineConfig({
   testDir: './tests',
+  // Maximum number of retries for failed test cases
+  // In in test execution result, the test case which passed after retrying will display under the tab called "Flaky"
+  // - Even though it passed in 2nd attempt, it doesn't fall under the category of passed, but will fall under the category of flaky
+  retries: 2,
   // Maximum time one test can run for => timeout 
   /** Default Timeout are 
   * 1. Test Timeout - This means this is overall time, the test will execute(after that, the test will fail)
@@ -23,6 +39,10 @@ export default defineConfig({
   expect: {
     timeout: 10 * 1000, //10secs
   },
+  //By default, the test files will trigger for parallel execution
+  // Individual tests in the fill will run in sequence
+  // By default 5 workers will start running at a time, if we want to control the parallel execution, we can do it with help of workers
+  workers: 2,
   reporter: "html",
   projects: [
     {

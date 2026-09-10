@@ -1,6 +1,17 @@
 import { expect, test } from "@playwright/test";
 
-test("Screenshot", async ({ page }) => {
+//here 2 test will start running in 2 different workers
+// test.describe.configure({
+//     mode: "parallel",    
+// })
+// If we comment out the above line of code, then playwright will use only 1 worker to run both the tests And these tests will run seqeuentially
+
+// if we have the tests which are interdependent on each other, then we can run the test in serial mode
+test.describe.configure({
+    mode: "serial"
+})
+// Here important thing is, if the 1st test is failed, all the subsequent test will be marked as skipped and wont executed
+test("@Web Screenshot", async ({ page }) => {
 
     //Second Page
     await page.goto("https://rahulshettyacademy.com/AutomationPractice/")
